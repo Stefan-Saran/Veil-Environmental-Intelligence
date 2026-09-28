@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Veil — Find what feels hidden</title>
+  <style>
+    html,body{margin:0;background:#050706;color:#e9eee9;font-family:system-ui,sans-serif}
+    .boot{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#11201b,#050706 55%)}
+    .boot-inner{text-align:center;letter-spacing:.12em;text-transform:uppercase;font:12px monospace;color:#aab7b0}
+    .pulse{width:10px;height:10px;border-radius:50%;background:#7ff2bf;box-shadow:0 0 24px #7ff2bf;margin:0 auto 18px}
+  </style>
+</head>
+<body>
+  <div class="boot"><div class="boot-inner"><div class="pulse"></div>Loading Veil / field intelligence</div></div>
+  <script>
+    const parts=["site-part-1.txt","site-part-2.txt","site-part-3.txt","site-part-4.txt"];
+    Promise.all(parts.map(p=>fetch(p).then(r=>r.text())))
+      .then(parts=>{
+        document.open();
+        document.write(parts.join(""));
+        document.close();
+      })
+      .catch(err=>{
+        document.querySelector(".boot-inner").textContent="Veil failed to load: "+err.message;
+      });
+  </script>
+</body>
+</html>
