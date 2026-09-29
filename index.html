@@ -118,13 +118,13 @@ main,header,footer{position:relative;z-index:3}
 
 .revelation{padding:20px 0 180px}
 .reveal-frame{min-height:720px;position:relative;overflow:hidden;background:#0a0f0d}
-.reveal-frame:before{content:"";position:absolute;inset:0;background:
+.reveal-frame:before{content:"";position:absolute;z-index:0;inset:0;background:
   linear-gradient(180deg,rgba(6,10,8,.22),rgba(6,10,8,.08) 38%,rgba(6,10,8,.86) 88%),
   url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2400&q=82") center/cover;
   filter:saturate(.72) contrast(1.02);transform:scale(1.03);transition:transform 1.8s var(--ease)}
 .reveal-frame.in-view:before{transform:scale(1)}
-.reveal-wash{position:absolute;inset:0;background:linear-gradient(120deg,rgba(100,119,255,.13),transparent 46%,rgba(134,230,193,.11));mix-blend-mode:screen}
-.reveal-content{position:absolute;left:44px;right:44px;bottom:42px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+.reveal-wash{position:absolute;z-index:1;inset:0;background:linear-gradient(120deg,rgba(100,119,255,.13),transparent 46%,rgba(134,230,193,.11));mix-blend-mode:screen}
+.reveal-content{position:absolute;z-index:2;left:44px;right:44px;bottom:42px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
 .location-code{font:500 10px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--emerald)}
 .location-name{font-size:clamp(3.6rem,8vw,9rem);line-height:.8;letter-spacing:-.075em;margin:13px 0 22px}
 .location-name em{font-family:"Playfair Display",serif;font-style:italic;font-weight:500}
@@ -160,7 +160,7 @@ main,header,footer{position:relative;z-index:3}
 .output-tags span{font:500 9px "DM Mono",monospace;letter-spacing:.09em;text-transform:uppercase;color:#818d86}
 .output-image{margin-top:32px;height:265px;overflow:hidden;position:relative}
 .output-image:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(3,5,4,.72));z-index:1}
-.output-image div{position:absolute;inset:-3%;background-position:center;background-size:cover;filter:saturate(.72);transition:background-image .5s ease,transform 1s var(--ease)}
+.output-image div{position:absolute;inset:-3%;background-position:center;z-index:0;background-size:cover;filter:saturate(.72);transition:background-image .5s ease,transform 1s var(--ease)}
 .output-image .image-note{position:absolute;z-index:2;left:18px;bottom:18px;font:500 9px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#d5ddd8}
 
 .data-section{padding:100px 0 160px}
@@ -417,7 +417,7 @@ footer{padding:30px 0 46px;border-top:1px solid var(--line);background:#050706}
     </div>
   </section>
 
-  <section class="data-section section" aria-labelledby="data-title">
+  <section class="data-section section" id="method" aria-labelledby="data-title">
     <div class="container">
       <div class="data-header reveal">
         <div>
@@ -605,8 +605,8 @@ function renderField(index){
   revealFrame.style.backgroundImage="linear-gradient(120deg,rgba(100,119,255,.07),transparent 46%,rgba(134,230,193,.08))";
   const pseudo=document.createElement("div");
   pseudo.style.cssText="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,8,.22),rgba(6,10,8,.08) 38%,rgba(6,10,8,.86) 88%),url('"+f.image+"') center/cover;filter:saturate(.72) contrast(1.02);z-index:-1;";
-  revealFrame.appendChild(pseudo);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>pseudo.style.transform="scale(1)"));
+  pseudo.style.transition="opacity .55s ease, transform 1s cubic-bezier(.22,.72,.16,1)"; pseudo.style.opacity="0.35"; revealFrame.appendChild(pseudo);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{pseudo.style.transform="scale(1)";pseudo.style.opacity="1";}));
   const previous=revealFrame.querySelector(".field-temp");
   if(previous) previous.remove();
   pseudo.className="field-temp";
